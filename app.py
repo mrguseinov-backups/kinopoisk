@@ -3,8 +3,8 @@ from src.parser import Parser
 
 
 def main() -> None:
-    Downloader(num_pages=2).download()
-    Parser().parse()
+    Downloader().download_vote_pages(num_pages=2)
+    Parser().parse_vote_pages()
 
 
 if __name__ == "__main__":
