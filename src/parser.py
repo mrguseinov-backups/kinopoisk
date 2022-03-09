@@ -18,9 +18,9 @@ from src.movie import Movie
 
 
 class Parser:
-    def parse(self) -> None:
+    def parse_vote_pages(self) -> None:
         today = datetime.now().strftime("%Y-%m-%d")
-        output_file = f"kinopoisk-{today}.json"
+        output_file = f"votes-{today}.json"
         movies = [movie.dict() for movie in self._get_movies()]
         with open(output_file, "w") as file:
             json.dump(movies, file, ensure_ascii=False, indent=4, default=str)
@@ -35,7 +35,7 @@ class Parser:
 
     def _get_movies(self) -> List[Movie]:
         movies: List[Movie] = []
-        for page in pathlib.Path.cwd().joinpath("pages").iterdir():
+        for page in pathlib.Path.cwd().joinpath("votes").iterdir():
             soup = BeautifulSoup(page.read_text(), "lxml")
             movies.extend(
                 [
