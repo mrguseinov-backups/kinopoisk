@@ -49,7 +49,7 @@ Right click the `votes/` request, then `Copy` and `Copy as Node.js fetch`.
 
 ![static/kinopoisk-2.png](static/kinopoisk-2.png)
 
-Create the `headers.json` file in the project root directory, paste the copied content into it, and leave only the value from the `headers` key. You should end up with something like the following:
+Create the `headers.json` file in the project root, paste the copied content into it, and leave only the value from the `headers` key. You should end up with something like the following:
 
 ```json
 {
@@ -71,6 +71,18 @@ Create the `headers.json` file in the project root directory, paste the copied c
 ```
 
 Note that the `headers.json` file must be kept secret.
+
+Find out the total number of pages on the votes page. In my case, it's `2`.
+
+![static/kinopoisk-3.png](static/kinopoisk-3.png)
+
+Set the `num_pages` variable in the `app.py` file.
+
+```python
+def main() -> None:
+    Downloader().download_vote_pages(num_pages=2)
+    Parser().parse_vote_pages()
+```
 
 ---
 
