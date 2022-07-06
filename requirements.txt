@@ -4,7 +4,7 @@ certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.0.4
 idna==3.3
-lxml==4.8.0
+lxml==4.9.1
 mypy-extensions==0.4.3
 pathspec==0.9.0
 platformdirs==2.5.1
