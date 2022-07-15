@@ -75,7 +75,9 @@ class Parser:
         match = re.search(r".*rating: '(\d{0,2})'", script.string)
         if match is None:
             raise RatingMyNotFoundError()
-        return match.groups()[0] or None
+        rating = match.groups()[0]
+        # When the rating is zero, it is also a view (фильм просмотрен).
+        return None if rating in ["", "0"] else rating
 
     @staticmethod
     def _get_title_en(movie: Tag) -> str | None:
