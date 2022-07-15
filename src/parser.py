@@ -2,7 +2,6 @@ import json
 import pathlib
 import re
 from datetime import datetime
-from typing import List, Optional
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -33,8 +32,8 @@ class Parser:
             raise MovieUrlNotFoundError()
         return f'https://www.kinopoisk.ru{a["href"]}'
 
-    def _get_movies(self) -> List[Movie]:
-        movies: List[Movie] = []
+    def _get_movies(self) -> list[Movie]:
+        movies: list[Movie] = []
         for page in pathlib.Path.cwd().joinpath("votes").iterdir():
             soup = BeautifulSoup(page.read_text(), "lxml")
             movies.extend(
@@ -68,7 +67,7 @@ class Parser:
         return str(div.b.string)
 
     @staticmethod
-    def _get_rating_my(movie: Tag) -> Optional[str]:
+    def _get_rating_my(movie: Tag) -> str | None:
         script = movie.find("script", string=re.compile(".*rating.*"))
         if not isinstance(script, Tag) or not isinstance(script.string, str):
             raise RatingMyNotFoundError()
@@ -79,7 +78,7 @@ class Parser:
         return match.groups()[0] or None
 
     @staticmethod
-    def _get_title_en(movie: Tag) -> Optional[str]:
+    def _get_title_en(movie: Tag) -> str | None:
         div = movie.find("div", class_="nameEng")
         if not isinstance(div, Tag):
             return None
