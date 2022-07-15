@@ -13,7 +13,7 @@ sudo apt update && sudo apt upgrade -y
 
 Install [`python`](https://www.python.org/) and [`pip`](https://pip.pypa.io/) (python package manager).
 ```
-sudo apt install python3.8 python3-pip
+sudo apt install python3.10 python3-pip
 ```
 
 Install [`virtualenv`](https://virtualenv.pypa.io/) (python environments manager).
@@ -70,9 +70,9 @@ Create the `headers.json` file in the project root, paste the copied content int
 }
 ```
 
-Note that the `headers.json` file must be kept secret.
+Note that the `headers.json` file must be kept secret!
 
-Find out the total number of pages on the votes page. In my case, it's `2`.
+Find out the total number of pages on the votes page. In the following screenshot, it's `2`.
 
 ![static/kinopoisk-3.png](static/kinopoisk-3.png)
 
