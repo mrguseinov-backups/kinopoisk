@@ -68,14 +68,15 @@ class Parser:
         return str(div.b.string)
 
     @staticmethod
-    def _get_rating_my(movie: Tag) -> str:
+    def _get_rating_my(movie: Tag) -> Optional[str]:
         script = movie.find("script", string=re.compile(".*rating.*"))
         if not isinstance(script, Tag) or not isinstance(script.string, str):
             raise RatingMyNotFoundError()
-        match = re.search(r".*rating: '(\d{1,2})'", script.string)
+        # Zero length (i.e., no rating) in `\d{0,2}` is for views (просмотры).
+        match = re.search(r".*rating: '(\d{0,2})'", script.string)
         if match is None:
             raise RatingMyNotFoundError()
-        return match.groups()[0]
+        return match.groups()[0] or None
 
     @staticmethod
     def _get_title_en(movie: Tag) -> Optional[str]:

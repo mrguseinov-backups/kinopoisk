@@ -10,7 +10,7 @@ class Movie:
     title_en: Optional[str]
     movie_url: str
     rating_kp: str
-    rating_my: str
+    rating_my: Optional[str]
     rating_date: datetime
 
     def dict(self) -> Dict[str, Any]:
