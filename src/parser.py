@@ -2,7 +2,6 @@ import json
 import pathlib
 import re
 from datetime import datetime
-from typing import List, Optional
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -33,8 +32,8 @@ class Parser:
             raise MovieUrlNotFoundError()
         return f'https://www.kinopoisk.ru{a["href"]}'
 
-    def _get_movies(self) -> List[Movie]:
-        movies: List[Movie] = []
+    def _get_movies(self) -> list[Movie]:
+        movies: list[Movie] = []
         for page in pathlib.Path.cwd().joinpath("votes").iterdir():
             soup = BeautifulSoup(page.read_text(), "lxml")
             movies.extend(
@@ -68,17 +67,20 @@ class Parser:
         return str(div.b.string)
 
     @staticmethod
-    def _get_rating_my(movie: Tag) -> str:
+    def _get_rating_my(movie: Tag) -> str | None:
         script = movie.find("script", string=re.compile(".*rating.*"))
         if not isinstance(script, Tag) or not isinstance(script.string, str):
             raise RatingMyNotFoundError()
-        match = re.search(r".*rating: '(\d{1,2})'", script.string)
+        # Zero length (i.e., no rating) in `\d{0,2}` is for views (просмотры).
+        match = re.search(r".*rating: '(\d{0,2})'", script.string)
         if match is None:
             raise RatingMyNotFoundError()
-        return match.groups()[0]
+        rating = match.groups()[0]
+        # When the rating is zero, it is also a view (фильм просмотрен).
+        return None if rating in ["", "0"] else rating
 
     @staticmethod
-    def _get_title_en(movie: Tag) -> Optional[str]:
+    def _get_title_en(movie: Tag) -> str | None:
         div = movie.find("div", class_="nameEng")
         if not isinstance(div, Tag):
             return None

@@ -2,7 +2,6 @@ import json
 import pathlib
 import re
 import shutil
-from typing import Dict
 
 import requests
 
@@ -32,7 +31,7 @@ class Downloader:
             raise UserIdNotFoundError()
         return user_id.groups()[0]
 
-    def _load_headers(self) -> Dict[str, str]:
+    def _load_headers(self) -> dict[str, str]:
         with open("headers.json") as file:
             return json.load(file)
 
